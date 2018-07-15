@@ -17,4 +17,17 @@ import sys
 
 class TRPO_Updater():
 
-	def __init__(self,env, arg):
+	def __init__(self, env, arg):
+		
+		self.VF = 
+		self.Policy_Network = 
+		self.var_list = 
+
+
+
+
+
+
+	def learn(paths, env, ):
+
+	def get_flat

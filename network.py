@@ -39,13 +39,18 @@ def value_model(features, y, mode, params):
     return tf.estimator.EstimatorSpec(mode, loss=loss, train_op=train_op)
 
 
-class ValueF_net()
+class ValueF_net(object)
     #This class is used to predict the value function
-    def __init__( ):
+    def __init__(self, env):
+        self.env = env 
+        self.obs_D = self.env.observation_space.shape[0]
+        self.act_D = self.env.action_space.n 
+
+        self.env
 
 
 
-    def _net_init(feature_columns):
+    def _net_init(self, feature_columns):
 
     	classifier = tf.estimator.Estimator(
         model_fn=value_model,
@@ -57,7 +62,21 @@ class ValueF_net()
 
 
 
-class Policy_net
+class Policy_net(object):
+
+    def __init__(self, env):
+        self.env = env 
+        self.obs_D = self.env.observation_space.shape[0]
+        self.act_D = self.env.action_space.n 
+        
+
+        
+
+        self._net_init
+
+
+    def _net_init(self, feature_columns)
+
 
 
 
