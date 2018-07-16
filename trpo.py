@@ -1,4 +1,6 @@
 from utils import *
+from network import Policy_net, ValueF_net
+
 import numpy as np
 import random
 import tensorflow as tf
@@ -17,17 +19,26 @@ import sys
 
 class TRPO_Updater():
 
-	def __init__(self, env, arg):
+	TRPO_CONFIG= {
+		'gamma':0.99
+	}
+	def __init__(self, env, config):
 		
-		self.VF = 
-		self.Policy_Network = 
-		self.var_list = 
+		self.vf = network.ValueF_net(env)
+		self.policy_net = network.Policy_net(env)
+
+		self. = tf.placeholder(tf.float32)
+
+		self.gf = GetFlat
 
 
+	def learn(self, sess, paths):
+		#everypath is a list of dict, where each contain rewards
 
+		self.action_dist = self.policy_net.predict(sess, paths)
 
-
-
-	def learn(paths, env, ):
-
-	def get_flat
+		for path in paths:
+			feat_map = path2feat(path)
+            path["baseline"] = self.vf.predict(path)            
+            path["returns"] = discount(path["rewards"], config.gamma)
+            path["advant"] = path["returns"] - path["baseline"]
