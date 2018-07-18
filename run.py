@@ -1,27 +1,46 @@
-import 
+import tensorflow as tf
+import argparse
+import gym
+
+import os.path as osp
+import gym, logging
+from baselines import logger
+from baselines import bench
+from baselines.common.atari_wrappers import make_atari, wrap_deepmind
+from baselines.common.cmd_util import atari_arg_parser
+
+import trpo
+from atari_setter import *
 
 
+def train(env_id, num_timesteps, seed = 1209 ):
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--batch_size', default=100, type=int, help='batch size')
-parser.add_argument('--train_steps', default=1000, type=int,
-                    help='number of training steps')
+    sess = tf.Session()
+
+    workerseed = seed
+    set_global_seeds(workerseed)
+
+    env = make_atari(env_id)
+	
+	trpo_updater = trpo.TRPO_Updater(sess, env)
+
+	env.render()
 
 
+    #env = bench.Monitor(env, logger.get_dir() and osp.join(logger.get_dir(), str(rank)))
+    #env.seed(workerseed)
+
+    #env = wrap_deepmind(env)
+    #env.seed(workerseed)
 
 
-if len(sys.argv) > 1:
-    task = sys.argv[1]
-else:
-    task = "RepeatCopy-v0"
+    #trpo_mpi.learn(env, policy_fn, timesteps_per_batch=512, max_kl=0.001, cg_iters=10, cg_damping=1e-3,
+    #    max_timesteps=int(num_timesteps * 1.1), gamma=0.98, lam=1.0, vf_iters=3, vf_stepsize=1e-4, entcoeff=0.00)
+    env.close()
 
-env = envs.make(task)
-env.monitor.start(training_dir)
+def main():
+    args = atari_setter.atari_arg_parser()
+    train(args.env, num_timesteps=args.num_timesteps, seed=args.seed)
 
-env = SpaceConversionEnv(env, Box, Discrete)
-
-agent = TRPOAgent(env)
-agent.learn()
-env.monitor.close()
-gym.upload(training_dir,
-           algorithm_id='trpo_ff')
+if __name__ == '__main__':
+	main()
